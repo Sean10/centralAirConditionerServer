@@ -4,6 +4,9 @@
 #include <QMainWindow>
 #include <QString>
 #include <QDateTime>
+#include <QTimer>
+#include <QDialog>
+#include <QMessageBox>
 //#include <QObject>
 
 //class centralAirConditioner;
@@ -22,6 +25,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     void Init();
+    void UserLogin();
 
 public slots:
     void Refresh();
@@ -35,6 +39,7 @@ signals:
 
 private:
     Ui::MainWindow *ui;
+    QTimer *timeRefresh;
 };
 
 #endif // MAINWINDOW_H
