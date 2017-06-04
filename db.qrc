@@ -1,5 +1,1 @@
-<RCC>
-    <qresource prefix="/db">
-        <file>user.db</file>
-    </qresource>
-</RCC>
+<RCC/>

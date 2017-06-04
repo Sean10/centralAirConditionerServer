@@ -27,15 +27,16 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     centralairconditioner.cpp \
     databasecontrol.cpp \
-    server.cpp
+    server.cpp \
+    client.cpp
 
 HEADERS  += mainwindow.h \
     centralairconditioner.h \
     databasecontrol.h \
-    server.h
+    server.h \
+    client.h
 
 FORMS    += mainwindow.ui \
     dialoglogin.ui
 
-RESOURCES += \
-    db.qrc
+RESOURCES +=
