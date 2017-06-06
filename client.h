@@ -2,7 +2,9 @@
 #define CLIENT_H
 
 #include <QTcpSocket>
-#include <QTcpServer>
+#include <QString>
+#include <QDebug>
+//#include <QTcpServer>
 
 class client : public QTcpSocket
 {
@@ -18,7 +20,7 @@ private slots:
     void OnReceiveData();
 
 private:
-    QTcpServer *tcpServer;
+    QTcpSocket *tcpSocket;
 };
 
 #endif // CLIENT_H

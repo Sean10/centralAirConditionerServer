@@ -28,13 +28,15 @@ SOURCES += main.cpp\
     centralairconditioner.cpp \
     databasecontrol.cpp \
     server.cpp \
-    client.cpp
+    client.cpp \
+    multithread.cpp
 
 HEADERS  += mainwindow.h \
     centralairconditioner.h \
     databasecontrol.h \
     server.h \
-    client.h
+    client.h \
+    multithread.h
 
 FORMS    += mainwindow.ui \
     dialoglogin.ui

@@ -3,7 +3,7 @@
 #include "centralairconditioner.h"
 #include "databasecontrol.h"
 #include "server.h"
-#include "client.h"
+#include "multithread.h"
 
 //QVector<centralAirConditioner> airConditioner ;
 centralAirConditioner airConditioner;
@@ -29,6 +29,9 @@ int main(int argc, char *argv[])
 
 
     //w->show();
+    server *servers;
+    servers = new server;
+    servers->listen(QHostAddress::Any,6666);
 
     return a.exec();
 }

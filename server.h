@@ -15,11 +15,11 @@ public:
     server(QObject *parent = 0);
 
 private slots:
-    void incomingConnection(qintptr socketdescriptor) Q_DECL_OVERRIDE;
+    void incomingConnection(qintptr socketDescriptor) Q_DECL_OVERRIDE;
 
 private:
-    QString receive;
-    QString sender;
+    //QString receive;
+    //QString sender;
     int state;
 };
 
