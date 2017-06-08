@@ -1,10 +1,11 @@
 #include "databasecontrol.h"
 #include "centralairconditioner.h"
 
-databaseControl::databaseControl()
+databaseControl::databaseControl()//:
+   // QObject(parent)
 {
     //qDebug() << QSqlDatabase::drivers();
-    QFile testFile("user.db");
+   QFile testFile("user.db");
    if (testFile.exists())
        qDebug() << "user.db exists";
    else
@@ -20,36 +21,101 @@ databaseControl::databaseControl()
         qDebug() << "Database user Create Failed!";
     }
 
-//    if(Connect("airConditioner.db", airConditioner)){
-//        qDebug() << "Database airConditioner Create Successfully!";
-//    }
-//    else{
-//        qDebug() << "Database airConditioner Create Failed!";
-//    }
     Init();
 }
+
+
 
 void databaseControl::Init()
 {
     //query = new QSqlQuery;
     qDebug() << __func__ << "is running.";
     QSqlQuery create;
-    create.prepare("create table if not exists data(\
+    create.prepare("create table if not exists user(\
                      user varchar(50) primary key,\
                      passwd varchar(50)\
                     )");
     if(create.exec())
     {
-        qDebug() << create.lastError();
+        qDebug() << "Success to create table user.";
     }
     else
     {
-        qDebug() << "create table failed.";
+        qDebug() << create.lastError();
+        qDebug() << "create table user failed.";
+    }
+    create.finish();
+
+    create.prepare("create table if not exists tableModel(\
+                     roomNum varchar(50) primary key,\
+                     user varchar(50),\
+                     temperature float,\
+                     workTemperature float,\
+                     blowSpeed int,\
+                     workModel int,\
+                     connectState int,\
+                     degree float,\
+                     cost float\
+                    )");
+    if(create.exec())
+    {
+        qDebug() << "Success to create tableModel.";
+    }
+    else
+    {
+        qDebug() << create.lastError();
+        qDebug() << "create table tableModel failed.";
+    }
+    create.finish();
+
+    create.prepare("create table if not exists Query(roomNUm_queryStartTime varchar(50), \
+                                                     roomNum varchar(50),\
+                                                     queryStartTime varchar(50), \
+                                                     queryEndTime varchar(50), \
+                                                     queryStartTemperature float, \
+                                                     queryEndTemperature float, \
+                                                     energy float)");
+    if(create.exec())
+    {
+        qDebug() << "Success to create Query.";
+
+    }
+    else
+    {
+        qDebug() << create.lastError();
+        qDebug() << "create table tableModel failed.";
+    }
+    create.finish();
+
+    create.prepare("create table if not exists blowSpeed(roomNUm_queryStartTime varchar(50), \
+                                                     windStartTime varchar(50), \
+                                                     windEndTime varchar(50), \
+                                                     blowSpeed int)");
+    if(create.exec())
+    {
+        qDebug() << "Success to create blowSpeed.";
+    }
+    else
+    {
+        qDebug() << create.lastError();
+        qDebug() << "create table tableModel failed.";
     }
     create.finish();
 
     QSqlQuery test;
-    test.prepare("insert into data (user,passwd) values('admin','123456')");
+    test.prepare("insert into user (user,passwd) values('admin','123456')");
+    if(test.exec())
+    {
+        qDebug() << test.lastError();
+    }
+    else
+    {
+        qDebug() << "insert table failed.";
+    }
+    test.finish();
+
+    test.prepare("insert into tableModel \
+            values('110', '1111111111111', 30.0, 25.0, 1, 0, 0, 20, 50)");
     if(test.exec())
     {
         qDebug() << test.lastError();
@@ -61,7 +127,7 @@ void databaseControl::Init()
     test.finish();
 
     QSqlTableModel model;
-    model.setTable("data");
+    model.setTable("user");
     if(model.select())
     {
         QSqlRecord record = model.record(0);
@@ -71,6 +137,8 @@ void databaseControl::Init()
         admin.SetPasswd(passwd);
         qDebug() << name << passwd;
     }
+
+
 //    queryAdmin = new QSqlQuery;
 //    queryAdmin->exec("select * from data");
 //    while(queryAdmin->next())

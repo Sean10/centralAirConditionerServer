@@ -43,12 +43,7 @@ void MainWindow::UserLogin()
             setAttribute(Qt::WA_DeleteOnClose, true);
             return ;
         }
-         //这里不应该这样提示，这是用户注册的提示，而不是管理员的提示
-//        else if(!QString::compare(uiDialog->lineUser->text(),admin.GetUser()))
-//        {
-//            QMessageBox::warning(NULL,"warning","用户名不存在！");
-//        }
-        else// if(!QString::compare(uiDialog->linePasswd->text(),admin.GetPasswd()))
+        else
         {
             qDebug() << uiDialog->lineUser->text() << uiDialog->linePasswd->text();
             QMessageBox::warning(NULL,"warning","用户名或密码错误！");
@@ -62,26 +57,6 @@ void MainWindow::UserLogin()
     }
 }
 
-void MainWindow::PushButtonStartClicked()
-{
-    qDebug() << __func__ << "is running.";
-    if(ui->pushButtonStart->text() == tr("开启"))
-    {
-        ui->pushButtonStart->setText(tr("关闭"));
-        //开启从控机
-        emit TimeStartSignal();
-
-    }
-    else if(ui->pushButtonStart->text() == tr("关闭"))
-    {
-        ui->pushButtonStart->setText(tr("开启"));
-        //关闭从控机
-        emit TimeStopSignal();
-
-
-    }
-}
-
 void MainWindow::Init()
 {
     this->show();
@@ -90,24 +65,64 @@ void MainWindow::Init()
     QString strTime = time.toString("yyyy-MM-dd hh:mm:ss dddd");
     ui->labelTimeDate->setText(strTime);
 
-    ui->spinBoxTemperature->setRange(15,35);
-    ui->spinBoxTemperature->setValue(25);
-    ui->labelDegree->setText(tr("0.0"));
-    ui->labelCost->setText(tr("0.00"));
+//    ui->spinBoxTemperature->setRange(15,35);
+//    ui->spinBoxTemperature->setValue(25);
+//    ui->labelDegree->setText(tr("0.0"));
+//    ui->labelCost->setText(tr("0.00"));
+
+    QStandardItemModel *model = new QStandardItemModel(this);
+
+    ui->tableView->setModel(model);
+    ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->tableView->setEditTriggers(QAbstractItemView::SelectedClicked);
+    ui->tableView->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->tableView->resizeRowsToContents();
+
+    //ui->tableView->resizeColumnsToContents();
+    model->setRowCount(0);
+    model->setHorizontalHeaderItem(0, new QStandardItem(tr("用户")));
+    model->setHorizontalHeaderItem(1, new QStandardItem(tr("房间号")));
+    model->setHorizontalHeaderItem(2, new QStandardItem(tr("当前温度")));
+    model->setHorizontalHeaderItem(3, new QStandardItem(tr("目标温度")));
+    model->setHorizontalHeaderItem(4, new QStandardItem(tr("风速")));
+    model->setHorizontalHeaderItem(5, new QStandardItem(tr("工作模式")));
+    model->setHorizontalHeaderItem(6, new QStandardItem(tr("连接状态")));
+    model->setHorizontalHeaderItem(7, new QStandardItem(tr("能量")));
+    model->setHorizontalHeaderItem(8, new QStandardItem(tr("电费")));
+
+
+    QList <centralAirConditioner>::iterator i;
+    for(i = airConditioner->begin(); i != airConditioner->end(); i++)
+    {
+        //QString tmpUser = airConditiconer->at(0).GetUser();
+        int row = model->rowCount();
+        model->insertRow(row);
+        model->setItem(row, 0, new QStandardItem(i->GetUser()));
+        model->setItem(row, 1, new QStandardItem(i->GetRoomNum()));
+        model->setItem(row, 2, new QStandardItem(QString::number(i->GetTemperature(),'f',2)));
+        model->setItem(row, 3, new QStandardItem(QString::number(i->GetWorkTemperature(),'f',2)));
+        model->setItem(row, 4, new QStandardItem(QString::number(i->GetBlowSpeed())));
+        model->setItem(row, 5, new QStandardItem(QString::number(i->GetWorkModel())));
+        //model->setItem(row, 6, new QStandardItem(QString::number(i->connectionState())));
+        model->setItem(row, 7, new QStandardItem(QString::number(i->GetDegree())));
+        model->setItem(row, 8, new QStandardItem(QString::number(i->GetCost())));
+    }
 
 
     //connect(ui->spinBox_2,SIGNAL(valueChanged(int)),this,SLOT(BlowSpeedTransfer(ui->spinBox_2->value())));
     timeRefresh = new QTimer;
 
     connect(timeRefresh, SIGNAL(timeout()), this, SLOT(Refresh()));
-    connect(ui->pushButtonStart,SIGNAL(clicked()), this,SLOT(PushButtonStartClicked()));
+
 }
 
 void MainWindow::Refresh()
 {
-    ui->labelDegree->setText(QString::number(airConditioner.GetDegree(),'f',1));
-    ui->labelCost->setText(QString::number(airConditioner.GetCost(),'f',2));
+    //ui->labelDegree->setText(QString::number(airConditioner.GetDegree(),'f',1));
+    //ui->labelCost->setText(QString::number(airConditioner.GetCost(),'f',2));
     QDateTime time = QDateTime::currentDateTime();
     QString strTime = time.toString("yyyy-MM-dd hh:mm:ss dddd");
     ui->labelTimeDate->setText(strTime);
+
+    ui->tableView->repaint();
 }

@@ -5,8 +5,9 @@
 #include "server.h"
 #include "multithread.h"
 
-//QVector<centralAirConditioner> airConditioner ;
-centralAirConditioner airConditioner;
+//QMap <int, centralAirConditioner> *airConditioner;
+QList <centralAirConditioner> *airConditioner;
+//centralAirConditioner airConditioner;
 administrator admin;
 
 int main(int argc, char *argv[])
@@ -16,8 +17,12 @@ int main(int argc, char *argv[])
     MainWindow *w = new MainWindow;
 
 
-    QObject::connect(w,SIGNAL(TimeStartSignal()),&airConditioner, SLOT(TimeStart()));
-    QObject::connect(w,SIGNAL(TimeStopSignal()),&airConditioner,SLOT(TimeStop()));
+//    QObject::connect(&database, SIGNAL(SignalSendDataFromDB(QString user, QString roomNum, float temperature, float workTemperature, \
+//                                                            int blowSpeed, int workModel, int connectionState, float degree, float cost)),\
+//                     w, SLOT(RevDateFromDB(QString user, QString roomNum, float temperature, float workTemperature, \
+//                                           int blowSpeed, int workModel, int connectionState, float degree, float cost)));
+    //QObject::connect(w,SIGNAL(TimeStartSignal()),&airConditioner, SLOT(TimeStart()));
+    //QObject::connect(w,SIGNAL(TimeStopSignal()),&airConditioner,SLOT(TimeStop()));
 
 //    tcpServer = new QTcpServer(this);
 //    if(!tcpServer->listen(QHostAddress::Any, 6666))

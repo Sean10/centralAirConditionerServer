@@ -7,6 +7,9 @@
 #include <QTimer>
 #include <QDialog>
 #include <QMessageBox>
+#include <QStandardItemModel>
+#include <QMap>
+#include <centralairconditioner.h>
 //#include <QObject>
 
 //class centralAirConditioner;
@@ -29,9 +32,11 @@ public:
 
 public slots:
     void Refresh();
+//    void RevDateFromDB(QString user, QString roomNum, float temperature, float workTemperature, \
+//                int blowSpeed, int workModel, int connectionState, float degree, float cost);
 
 private slots:
-    void PushButtonStartClicked();
+    //void PushButtonStartClicked();
 
 signals:
     void TimeStartSignal();

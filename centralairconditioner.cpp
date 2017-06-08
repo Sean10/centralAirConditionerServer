@@ -6,6 +6,20 @@ centralAirConditioner::centralAirConditioner()
 
 }
 
+centralAirConditioner::centralAirConditioner(QString user1, QString roomNum1, float temperature1, float workTemperature1, int blowSpeed1\
+                      , int degree1, float cost1, int workModel1)
+{
+    user = user1;
+    roomNum = roomNum1;
+    temperature = temperature1;
+    workTemperature = workTemperature1;
+    //工作温度可能需要修改；
+    blowSpeed = blowSpeed1;
+    degree = degree1;
+    cost = cost1;
+    workModel = workModel1;
+}
+
 centralAirConditioner::~centralAirConditioner()
 {
     delete this;
@@ -13,31 +27,72 @@ centralAirConditioner::~centralAirConditioner()
 
 void centralAirConditioner::Init()
 {
+    user = "";
+    roomNum = "";
     temperature = 25;
     blowSpeed = LOWSPEED;
     degree = 0;
     cost = 0;
-    timeCount = 0;
+    //timeCount = 0;
 }
-
 int centralAirConditioner::GetBlowSpeed()
 {
     return this->blowSpeed;
 }
 
-int centralAirConditioner::GetTemperature()
+float centralAirConditioner::GetTemperature()
 {
     return this->temperature;
 }
 
-double centralAirConditioner::GetCost()
+float centralAirConditioner::GetWorkTemperature()
+{
+    return this->workTemperature;
+}
+
+float centralAirConditioner::GetCost()
 {
     return this->cost;
 }
 
-double centralAirConditioner::GetDegree()
+float centralAirConditioner::GetDegree()
 {
     return this->degree;
+}
+
+QString centralAirConditioner::GetUser()
+{
+    return this->user;
+}
+
+QString centralAirConditioner::GetRoomNum()
+{
+    return this->roomNum;
+}
+
+int centralAirConditioner::GetWorkModel()
+{
+    return this->workModel;
+}
+
+float centralAirConditioner::GetLowTem()
+{
+    return this->lowTem;
+}
+
+float centralAirConditioner::GetHighTem()
+{
+    return this->highTem;
+}
+
+void centralAirConditioner::SetUser(const QString &user)
+{
+    this->user = user;
+}
+
+void centralAirConditioner::SetRoomNum(const QString &roomNum)
+{
+    this->roomNum = roomNum;
 }
 
 int centralAirConditioner::ChangeTemperature(int tmp)
@@ -50,34 +105,6 @@ int centralAirConditioner::ChangeBlowSpeed(int tmp)
 {
     this->blowSpeed = tmp;
     return 0;
-}
-
-void centralAirConditioner::TimeStart()
-{
-    time.start();
-}
-
-void centralAirConditioner::TimeStop()
-{
-    int time_diff = time.elapsed()/100;
-    switch(blowSpeed)
-    {
-        case 0:
-            degree += time_diff;
-            cost += time_diff * 0.01;
-            break ;
-        case 1:
-            degree += time_diff*2;
-            cost += time_diff * 0.02;
-            break;
-        case 2:
-            degree += time_diff*3;
-            cost += time_diff * 0.03;
-            break;
-        default:
-            qDebug() << "Error: blowspeed is wrong." << endl;
-    }
-
 }
 
 administrator::administrator()

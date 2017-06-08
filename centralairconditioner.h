@@ -5,7 +5,8 @@
 #include <QObject>
 #include <QDebug>
 #include <QString>
-#include <QVector>
+#include <QMap>
+#include <QList>
 
 #define LOWSPEED 0
 #define MEDIUMSPEED 1
@@ -18,27 +19,45 @@
     Q_OBJECT
 public:
     centralAirConditioner();
+//    centralAirConditioner(QString &user1, QString &roomNum1, float &temperature1, float &workTemperature1, int &blowSpeed1\
+//                          , int &degree1, float &cost1, int& workModel1);
+        centralAirConditioner(QString user1, QString roomNum1, float temperature1, float workTemperature1, int blowSpeed1\
+                              , int degree1, float cost1, int workModel1);
     ~centralAirConditioner();
-    int GetTemperature();
+    float GetTemperature();
+    float GetWorkTemperature();
     int GetBlowSpeed();
-    double GetCost();
-    double GetDegree();
+    float GetCost();
+    float GetDegree();
+    QString GetUser();
+    QString GetRoomNum();
+    int GetWorkModel();
+    float GetLowTem();
+    float GetHighTem();
+    void SetRoomNum(const QString &);
+    void SetUser(const QString &);
     int ChangeTemperature(int tmp);
     int ChangeBlowSpeed(int tmp);
     void Init();
     QTime time;
 
 public slots:
-    void TimeStart();
-    void TimeStop();
+//    void TimeStart();
+//    void TimeStop();
 
 private:
     QString user;
-    int temperature;
+    QString roomNum;
+    float temperature;
+    float workTemperature;
     int blowSpeed;
-    unsigned long timeCount;
-    double degree;
-    double cost;
+    //unsigned long timeCount;
+    int degree; //能量总数
+    float cost;
+
+    int workModel;
+    float lowTem;
+    float highTem;
 };
 
 class administrator
@@ -56,7 +75,9 @@ private:
     QString passwd;
 };
 
-extern centralAirConditioner airConditioner;
+//extern QMap <int, centralAirConditioner> *airConditioner;
+extern QList <centralAirConditioner> *airConditioner;
+//extern centralAirConditioner airConditioner;
 extern administrator admin;
 //extern QVector<centralAirConditioner> airConditioner ;
 

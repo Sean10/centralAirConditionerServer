@@ -17,6 +17,7 @@ public:
     multithread(qintptr s, int state, QObject *parent);
     ~multithread();
     void run() Q_DECL_OVERRIDE;
+    void UpdateCentralAirConditioner();
 
 private slots:
     void DealWithMessage();
@@ -27,11 +28,12 @@ private slots:
 private:
     qintptr socketDescriptor;
 
-    int workState;
+    int workModel;
     int connectState;
-    float energy;
+    int degree;
 
     QString roomNum;
+    QString user;
     float temperature;
     int blowSpeed;
 
